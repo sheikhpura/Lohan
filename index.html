@@ -1,1 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Under Maintenance</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #fff;
+            overflow: hidden;
+        }
+
+        /* Animated Background */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 90%;
+            animation: slideUp 1.5s ease-out;
+        }
+
+        /* Slide In Animation */
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Spinner Loader */
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-top: 8px solid #00d2ff;
+            border-right: 8px solid #3a7bd5;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #00d2ff, #3a7bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .timer-box {
+            margin: 20px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        #timer {
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #00d2ff;
+        }
+
+        .small-text {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+
+        /* Pulse animation for text */
+        .pulse-text {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="loader"></div>
+        <h1>🚧 Under Maintenance</h1>
+        <p>We are currently upgrading our servers to serve you better.</p>
+        <p class="pulse-text">Please bear with us!</p>
+        
+        <div class="timer-box">
+            <p style="margin:0; font-size:0.9rem;">Estimated time left:</p>
+            <span id="timer">05:00</span>
+        </div>
+
+        <p class="small-text">⏳ This page will refresh automatically once done.</p>
+    </div>
+
+    <script>
+        // Countdown Timer Logic (5 minutes = 300 seconds)
+        let timeLeft = 300; 
+        const timerElement = document.getElementById('timer');
+
+        const countdown = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                timerElement.textContent = "00:00";
+                // Optional: Reload page after timer ends
+                // setTimeout(() => location.reload(), 3000);
+                return;
+            }
+            
+            timeLeft--;
+            
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            
+            // Add leading zero if less than 10
+            const formattedTime = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            timerElement.textContent = formattedTime;
+        }, 1000);
+    </script>
+
+</body>
+</html>
