@@ -3,143 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Under Maintenance</title>
+    <title>Maintenance Mode</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        /* --- Reset & Base --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: #fff;
+            background: #0b0b1a;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             overflow: hidden;
+            position: relative;
         }
 
-        /* Animated Background */
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- Animated Glowing Orbs (Background) --- */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: floatOrb 15s ease-in-out infinite alternate;
+        }
+        .orb-1 { width: 400px; height: 400px; background: #00f2fe; top: -10%; left: -10%; }
+        .orb-2 { width: 350px; height: 350px; background: #ff0844; bottom: -10%; right: -10%; animation-delay: -5s; }
+        .orb-3 { width: 250px; height: 250px; background: #f39c12; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -10s; }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, -50px) scale(1.2); }
         }
 
+        /* --- Main Card (Glassmorphism) --- */
         .container {
+            position: relative;
+            z-index: 10;
             text-align: center;
-            padding: 2rem;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            max-width: 500px;
+            padding: 3rem 2.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+            max-width: 520px;
             width: 90%;
-            animation: slideUp 1.5s ease-out;
+            animation: slideUp 1s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        /* Slide In Animation */
         @keyframes slideUp {
-            0% { opacity: 0; transform: translateY(50px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% { opacity: 0; transform: translateY(40px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Spinner Loader */
-        .loader {
+        /* --- 3D Rotating Cube Loader --- */
+        .cube-wrapper {
             width: 80px;
             height: 80px;
-            border: 8px solid rgba(255, 255, 255, 0.1);
-            border-top: 8px solid #00d2ff;
-            border-right: 8px solid #3a7bd5;
-            border-radius: 50%;
             margin: 0 auto 25px;
-            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            perspective: 200px;
+        }
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotateCube 8s infinite linear;
+        }
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 242, 254, 0.15);
+            border: 2px solid rgba(0, 242, 254, 0.6);
+            border-radius: 12px;
+            box-shadow: inset 0 0 20px rgba(0, 242, 254, 0.2);
+        }
+        .front  { transform: translateZ(40px); }
+        .back   { transform: rotateY(180deg) translateZ(40px); }
+        .left   { transform: rotateY(-90deg) translateZ(40px); }
+        .right  { transform: rotateY(90deg) translateZ(40px); }
+        .top    { transform: rotateX(90deg) translateZ(40px); }
+        .bottom { transform: rotateX(-90deg) translateZ(40px); }
+
+        @keyframes rotateCube {
+            0%   { transform: rotateX(0deg) rotateY(0deg); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
+        /* --- Typography --- */
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #00d2ff, #3a7bd5);
+            font-weight: 700;
+            background: linear-gradient(135deg, #00f2fe, #4facfe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
-
-        p {
+        .sub-text {
+            color: rgba(255,255,255,0.7);
             font-size: 1.1rem;
-            opacity: 0.9;
-            margin: 10px 0;
+            margin: 8px 0 15px;
             line-height: 1.6;
         }
-
-        .timer-box {
-            margin: 20px 0;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            display: inline-block;
-        }
-
-        #timer {
-            font-size: 2rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            color: #00d2ff;
-        }
-
-        .small-text {
-            font-size: 0.9rem;
-            opacity: 0.7;
-            margin-top: 15px;
-        }
-
-        /* Pulse animation for text */
         .pulse-text {
-            animation: pulse 2s infinite;
+            color: #f39c12;
+            font-weight: 500;
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; text-shadow: 0 0 5px rgba(243, 156, 18, 0.3); }
+            50% { opacity: 1; text-shadow: 0 0 20px rgba(243, 156, 18, 0.6); }
         }
 
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
+        /* --- Timer Section --- */
+        .timer-box {
+            margin: 25px 0 10px;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            display: inline-block;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .timer-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 5px;
+        }
+        #timer {
+            font-family: 'Courier New', monospace;
+            font-size: 3.2rem;
+            font-weight: bold;
+            color: #00f2fe;
+            text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            letter-spacing: 4px;
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.3);
         }
     </style>
 </head>
 <body>
 
+    <!-- Background Orbs -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- Main Content -->
     <div class="container">
-        <div class="loader"></div>
-        <h1>🚧 Under Maintenance</h1>
-        <p>We are currently upgrading our servers to serve you better.</p>
-        <p class="pulse-text">Please bear with us!</p>
-        
-        <div class="timer-box">
-            <p style="margin:0; font-size:0.9rem;">Estimated time left:</p>
-            <span id="timer">05:00</span>
+        <!-- 3D Cube Loader -->
+        <div class="cube-wrapper">
+            <div class="cube">
+                <div class="face front"></div>
+                <div class="face back"></div>
+                <div class="face left"></div>
+                <div class="face right"></div>
+                <div class="face top"></div>
+                <div class="face bottom"></div>
+            </div>
         </div>
 
-        <p class="small-text">⏳ This page will refresh automatically once done.</p>
+        <h1>⚡ Under Maintenance</h1>
+        <p class="sub-text">We're upgrading our systems for a faster experience.</p>
+        <p class="pulse-text">Hold tight! We'll be back in no time.</p>
+
+        <div class="timer-box">
+            <div class="timer-label">Estimated Time Remaining</div>
+            <span id="timer">04:00:00</span>
+        </div>
+
+        <p class="footer-note">This page will auto-refresh upon completion.</p>
     </div>
 
     <script>
-        // Countdown Timer Logic (5 minutes = 300 seconds)
-        let timeLeft = 300; 
+        // Set timer to 4 hours (4 * 60 * 60 = 14400 seconds)
+        let timeLeft = 14400; 
         const timerElement = document.getElementById('timer');
 
         const countdown = setInterval(() => {
             if (timeLeft <= 0) {
                 clearInterval(countdown);
-                timerElement.textContent = "00:00";
+                timerElement.textContent = "00:00:00";
                 // Optional: Reload page after timer ends
                 // setTimeout(() => location.reload(), 3000);
                 return;
@@ -147,12 +199,13 @@
             
             timeLeft--;
             
-            const minutes = Math.floor(timeLeft / 60);
+            const hours = Math.floor(timeLeft / 3600);
+            const minutes = Math.floor((timeLeft % 3600) / 60);
             const seconds = timeLeft % 60;
             
-            // Add leading zero if less than 10
+            // Format with leading zeros (HH:MM:SS)
             const formattedTime = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
             timerElement.textContent = formattedTime;
         }, 1000);
